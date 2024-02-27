@@ -9,5 +9,4 @@ public class CelogApplication {
     public static void main(String[] args) {
         SpringApplication.run(CelogApplication.class, args);
     }
-
 }
