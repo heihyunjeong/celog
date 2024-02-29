@@ -1,7 +1,9 @@
 package com.celog.celog.controller;
 
 
+import com.celog.celog.application.UserApplication.LoginUserApplication;
 import com.celog.celog.application.UserApplication.SignupUserApplication;
+import com.celog.celog.controller.dto.userDto.userRequestDto.LoginRequestDto;
 import com.celog.celog.controller.dto.userDto.userRequestDto.SignupRequestDto;
 import com.celog.celog.controller.dto.userDto.userResponseDto.SignupResponseDto;
 import com.celog.celog.shared.CoreSuccessResponse;
@@ -18,6 +20,7 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public class UserController {
     private final SignupUserApplication signupUserApplication;
+    private final LoginUserApplication loginUserApplication;
 
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.CREATED)
@@ -31,5 +34,13 @@ public class UserController {
                 .httpStatus(HttpStatus.CREATED.value())
                 .data(signupUserResponseDto)
                 .build();
+    }
+
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
+    public CoreSuccessResponse login(
+            @RequestBody @Valid LoginRequestDto request
+    ) {
+        LoginRequestDto loginRequestDto = loginUserApplication.execute(request);
     }
 }
