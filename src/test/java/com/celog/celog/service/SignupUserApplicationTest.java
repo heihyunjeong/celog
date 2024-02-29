@@ -52,6 +52,7 @@ public class SignupUserApplicationTest {
     public void existUserSignUpTest() {
         // given
 
+
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
         // HTTP 응답 모의 객체 생성
         SignupRequestDto signupRequestDto = SignupRequestDto.builder()
