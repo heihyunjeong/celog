@@ -42,8 +42,6 @@ public class LoginUserApplicationTest {
     @Test
     @DisplayName("존재하지 않는 이메일입니다.")
     public void notExistUserLoginTest() {
-        // given
-        // when
-        // then
+
     }
 }

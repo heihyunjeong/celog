@@ -5,6 +5,7 @@ import com.celog.celog.controller.dto.userDto.userResponseDto.LoginResponseDto;
 import com.celog.celog.domain.User;
 import com.celog.celog.repository.UserRepository;
 import com.celog.celog.shared.Exception.HttpExceptionCustom;
+import com.celog.celog.shared.service.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -14,8 +15,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LoginUserApplication {
     private final UserRepository userRepository;
+    private final SecurityService securityService;
 
-    private String passwordCompare(String password, String hashedPassword) {
+    private void passwordCompare(String password, String hashedPassword) {
         if(!BCrypt.checkpw(password, hashedPassword)) {
             throw new HttpExceptionCustom(
                     false,
@@ -23,18 +25,10 @@ public class LoginUserApplication {
                     HttpStatus.BAD_REQUEST
             );
         }
-
-        return hashedPassword;
     }
 
-    private String createAccessToken(Long id) {
-        return
-    }
-
-    public LoginResponseDto execute(LoginRequestDto request) {
-        String email = request.getEmail();
-
-        User foundUser = userRepository.findByEmail(email)
+    private User emailCheck(String email) {
+        return userRepository.findByEmail(email)
                 .orElseThrow(
                         () -> new HttpExceptionCustom(
                                 false,
@@ -42,14 +36,19 @@ public class LoginUserApplication {
                                 HttpStatus.BAD_REQUEST
                         )
                 );
+    }
 
-        String checkedPassword = passwordCompare(
-                request.getPassword(),
-                foundUser.getPassword()
-        );
+    public LoginResponseDto execute(LoginRequestDto request) {
+        String email = request.getEmail();
+
+        User responseUser = emailCheck(email);
+        passwordCompare(request.getPassword(), responseUser.getPassword());
+        String accessToken = securityService.createToken(responseUser.getId());
 
         return LoginResponseDto.builder()
-                .email(foundUser.getEmail())
+                .id(responseUser.getId())
+                .email(responseUser.getEmail())
+                .accessToken(accessToken)
                 .build();
     }
 }
