@@ -2,12 +2,16 @@ package com.celog.celog.controller;
 
 
 import com.celog.celog.application.UserApplication.LoginUserApplication;
+import com.celog.celog.application.UserApplication.MyProfileUserApplication;
 import com.celog.celog.application.UserApplication.SignupUserApplication;
 import com.celog.celog.controller.dto.userDto.userRequestDto.LoginRequestDto;
 import com.celog.celog.controller.dto.userDto.userRequestDto.SignupRequestDto;
 import com.celog.celog.controller.dto.userDto.userResponseDto.LoginResponseDto;
+import com.celog.celog.controller.dto.userDto.userResponseDto.MyProfileUserResponseDto;
 import com.celog.celog.controller.dto.userDto.userResponseDto.SignupResponseDto;
+import com.celog.celog.domain.User;
 import com.celog.celog.shared.CoreSuccessResponse;
+import com.celog.celog.shared.service.SecurityService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +26,8 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final SignupUserApplication signupUserApplication;
     private final LoginUserApplication loginUserApplication;
+    private final MyProfileUserApplication myProfileUserApplication;
+    private final SecurityService securityService;
 
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.CREATED)
@@ -48,6 +54,21 @@ public class UserController {
                 .message("로그인 성공")
                 .httpStatus(HttpStatus.OK.value())
                 .data(loginResponseDto)
+                .build();
+    }
+
+    @GetMapping("/my_profile")
+    @ResponseStatus(HttpStatus.OK)
+    public CoreSuccessResponse myProfile(
+            @RequestHeader("Authorization") String token
+    ) {
+        User responseUser = securityService.getSubject(token);
+        MyProfileUserResponseDto myProfileUserResponseDto = myProfileUserApplication.execute(responseUser.getEmail());
+        return CoreSuccessResponse.builder()
+                .ok(true)
+                .message("내 프로필 조회 성공")
+                .data(myProfileUserResponseDto)
+                .httpStatus(HttpStatus.OK.value())
                 .build();
     }
 }
