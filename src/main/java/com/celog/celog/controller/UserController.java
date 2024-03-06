@@ -4,11 +4,14 @@ package com.celog.celog.controller;
 import com.celog.celog.application.UserApplication.LoginUserApplication;
 import com.celog.celog.application.UserApplication.MyProfileUserApplication;
 import com.celog.celog.application.UserApplication.SignupUserApplication;
+import com.celog.celog.application.UserApplication.UpdateMyProfileApplication;
 import com.celog.celog.controller.dto.userDto.userRequestDto.LoginRequestDto;
 import com.celog.celog.controller.dto.userDto.userRequestDto.SignupRequestDto;
+import com.celog.celog.controller.dto.userDto.userRequestDto.UpdateProfileRequestDto;
 import com.celog.celog.controller.dto.userDto.userResponseDto.LoginResponseDto;
 import com.celog.celog.controller.dto.userDto.userResponseDto.MyProfileUserResponseDto;
 import com.celog.celog.controller.dto.userDto.userResponseDto.SignupResponseDto;
+import com.celog.celog.controller.dto.userDto.userResponseDto.UpdateProfileResponseDto;
 import com.celog.celog.domain.User;
 import com.celog.celog.shared.CoreSuccessResponse;
 import com.celog.celog.shared.service.SecurityService;
@@ -27,6 +30,7 @@ public class UserController {
     private final SignupUserApplication signupUserApplication;
     private final LoginUserApplication loginUserApplication;
     private final MyProfileUserApplication myProfileUserApplication;
+    private final UpdateMyProfileApplication updateMyProfileApplication;
     private final SecurityService securityService;
 
     @PostMapping("/signup")
@@ -68,6 +72,22 @@ public class UserController {
                 .ok(true)
                 .message("내 프로필 조회 성공")
                 .data(myProfileUserResponseDto)
+                .httpStatus(HttpStatus.OK.value())
+                .build();
+    }
+
+    @PutMapping("/my_profile")
+    @ResponseStatus(HttpStatus.OK)
+    public CoreSuccessResponse updateMyProfile(
+            @RequestHeader("Authorization") String token,
+            @RequestBody @Valid UpdateProfileRequestDto request
+    ) {
+        User responseUser = securityService.getSubject(token);
+        UpdateProfileResponseDto updateProfileResponseDto = updateMyProfileApplication.execute(responseUser, request);
+        return CoreSuccessResponse.builder()
+                .ok(true)
+                .message("내 프로필 수정 성공")
+                .data(updateProfileResponseDto)
                 .httpStatus(HttpStatus.OK.value())
                 .build();
     }
