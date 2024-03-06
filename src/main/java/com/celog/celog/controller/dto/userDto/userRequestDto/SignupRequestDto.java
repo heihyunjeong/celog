@@ -3,11 +3,13 @@ package com.celog.celog.controller.dto.userDto.userRequestDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
+@Builder
 public class SignupRequestDto {
     @Schema(description = "email", example = "이메일")
     @NotBlank(message = "이메일을 입력해주세요")
