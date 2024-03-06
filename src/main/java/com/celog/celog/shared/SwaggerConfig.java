@@ -30,7 +30,7 @@ public class SwaggerConfig {
                         addList("Bearer Authentication"))
                 .components(new Components().addSecuritySchemes
                         ("Bearer Authentication", createAPIKeyScheme()))
-                .info(new Info().title("My REST API")
+                .info(new Info().title("Celog API")
                         .description("Some custom description of API.")
                         .version("1.0").contact(new Contact().name("Sallo Szrajbman")
                                 .email( "www.baeldung.com").url("salloszraj@gmail.com"))
