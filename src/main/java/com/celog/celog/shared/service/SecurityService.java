@@ -10,6 +10,8 @@ import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -41,6 +43,12 @@ public class SecurityService {
                 .setExpiration(new Date(System.currentTimeMillis()+expiration))
                 .signWith(key)
                 .compact();
+    }
+
+    public User getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String token = (String) authentication.getCredentials();
+        return getSubject(token);
     }
 
     public User getSubject(String token) {
