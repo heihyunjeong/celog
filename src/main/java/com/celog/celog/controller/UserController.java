@@ -19,6 +19,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -63,10 +65,8 @@ public class UserController {
 
     @GetMapping("/my_profile")
     @ResponseStatus(HttpStatus.OK)
-    public CoreSuccessResponse myProfile(
-            @RequestHeader("Authorization") String token
-    ) {
-        User responseUser = securityService.getSubject(token);
+    public CoreSuccessResponse myProfile() {
+        User responseUser = securityService.getAuthenticatedUser();
         MyProfileUserResponseDto myProfileUserResponseDto = myProfileUserApplication.execute(responseUser.getEmail());
         return CoreSuccessResponse.builder()
                 .ok(true)
@@ -79,10 +79,9 @@ public class UserController {
     @PutMapping("/my_profile")
     @ResponseStatus(HttpStatus.OK)
     public CoreSuccessResponse updateMyProfile(
-            @RequestHeader("Authorization") String token,
             @RequestBody @Valid UpdateProfileRequestDto request
     ) {
-        User responseUser = securityService.getSubject(token);
+        User responseUser = securityService.getAuthenticatedUser();
         UpdateProfileResponseDto updateProfileResponseDto = updateMyProfileApplication.execute(responseUser, request);
         return CoreSuccessResponse.builder()
                 .ok(true)
