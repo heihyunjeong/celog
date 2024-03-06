@@ -45,11 +45,12 @@ public class SecurityService {
 
     public User getSubject(String token) {
         SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+        String removeBearer = token.replace("Bearer ", "");
 
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
-                .parseClaimsJws(token)
+                .parseClaimsJws(removeBearer)
                 .getBody();
         Long userId = Long.parseLong(claims.getSubject());
         return userRepository.findById(userId)
