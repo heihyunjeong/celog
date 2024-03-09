@@ -1,9 +1,9 @@
 package com.celog.celog.shared;
 
-import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import static io.swagger.v3.oas.models.security.SecurityScheme.Type.HTTP;
 
 @Configuration
 @RequiredArgsConstructor
@@ -31,16 +33,15 @@ public class SwaggerConfig {
                 .components(new Components().addSecuritySchemes
                         ("Bearer Authentication", createAPIKeyScheme()))
                 .info(new Info().title("Celog API")
-                        .description("Some custom description of API.")
-                        .version("1.0").contact(new Contact().name("Sallo Szrajbman")
-                                .email( "www.baeldung.com").url("salloszraj@gmail.com"))
-                        .license(new License().name("License of API")
-                                .url("API license URL")));
+                        .description("Celog API 명세서입니다.")
+                        .version("1.0").contact(new Contact().name("Cellog API Support"))
+                        .license(new License().name("OPEN API URL")
+                                .url("OPEN API URL")));
     }
 
     private SecurityScheme createAPIKeyScheme() {
-        return new SecurityScheme().type(SecurityScheme.Type.HTTP)
-                .bearerFormat("JWT")
+        return new SecurityScheme().type(HTTP)
+                .bearerFormat("Authorization")
                 .scheme("bearer");
     }
 }
