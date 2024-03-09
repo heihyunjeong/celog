@@ -10,13 +10,17 @@ import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +37,11 @@ public class SecurityService {
     public String createToken(Long userId) {
 
         if (expiration <= 0) {
-            throw new RuntimeException("Expiratio time must be greater than zero!");
+            throw new HttpExceptionCustom(
+                    false,
+                    "Expiratio time must be greater than zero!",
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
         }
 
         SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
@@ -45,10 +53,56 @@ public class SecurityService {
                 .compact();
     }
 
-    public User getAuthenticatedUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String token = (String) authentication.getCredentials();
+    // SecurityService 클래스 내에 추가
+    public Authentication getAuthentication(String token) {
+        // 토큰에서 사용자 ID를 추출
+        Long userId = getUserIdFromToken(token);
+        // 데이터베이스에서 사용자 정보 조회
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new HttpExceptionCustom(false,"User not found: " + userId, HttpStatus.NOT_FOUND));
+
+        // 사용자 권한을 설정 (여기서는 예시로 USER 권한을 부여합니다. 실제로는 사용자의 권한에 맞게 설정해야 합니다.)
+        List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+
+        // UsernamePasswordAuthenticationToken 객체 생성 및 반환
+        return new UsernamePasswordAuthenticationToken(user, null, authorities);
+    }
+
+    public User getAuthenticatedUser(String authHeader) {
+        if (authHeader == null) {
+            throw new HttpExceptionCustom(
+                    false,
+                    "Authentication credentials not found",
+                    HttpStatus.UNAUTHORIZED
+            );
+        }
+        String token = authHeader.substring(7);
         return getSubject(token);
+    }
+
+    public Boolean validateToken(String token) {
+        SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public Long getUserIdFromToken(String token) {
+        SecretKey
+                key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+        String removeBearer = token.replace("Bearer ", "");
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(removeBearer)
+                .getBody();
+        return Long.parseLong(claims.getSubject());
     }
 
     public User getSubject(String token) {
