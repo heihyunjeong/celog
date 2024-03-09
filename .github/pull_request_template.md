@@ -13,6 +13,6 @@ What kind of change does this PR introduce?
 
 
 
-## 무슨 작업을 하셨나요. 간략히 설명해주세요?
+## 무슨 작업을 하셨나요. 간략히 설명해주세요
 
 ## reference
