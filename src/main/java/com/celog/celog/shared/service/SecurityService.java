@@ -125,13 +125,14 @@ public class SecurityService {
                 );
     }
 
-    public String getTokenByCookie(Cookie[] cookies) {
-        String token = null;
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("token")) {
-                token = cookie.getValue();
-            }
-        }
-        return token;
-    }
+//    public String getTokenByCookie(Cookie[] cookies) {
+//        String token = null;
+//        for (Cookie cookie : cookies) {
+//            if (cookie.getName().equals("token")) {
+//                System.out.println("여기에 들어오긴하니??");
+//                token = cookie.getValue();
+//            }
+//        }
+//        return token;
+//    }
 }
