@@ -49,12 +49,10 @@ public class UpdateMyProfileApplication {
         responseUser.setAge(requestDto.getAge());
         responseUser.setName(requestDto.getName());
 
-        User updatedUser = userRepository.save(responseUser);
-
         return UpdateProfileResponseDto.builder()
-                .email(updatedUser.getEmail())
-                .name(updatedUser.getName())
-                .age(updatedUser.getAge())
+                .email(responseUser.getEmail())
+                .name(responseUser.getName())
+                .age(responseUser.getAge())
                 .build();
     }
 }
