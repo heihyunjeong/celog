@@ -1,20 +1,15 @@
 package com.celog.celog.controller;
 
 import com.celog.celog.application.UserApplication.LoginUserApplication;
-import com.celog.celog.application.UserApplication.MyProfileUserApplication;
 import com.celog.celog.application.UserApplication.SignupUserApplication;
 import com.celog.celog.application.UserApplication.UpdateMyProfileApplication;
 import com.celog.celog.controller.dto.userDto.userRequestDto.LoginRequestDto;
 import com.celog.celog.controller.dto.userDto.userRequestDto.SignupRequestDto;
 import com.celog.celog.controller.dto.userDto.userRequestDto.UpdateProfileRequestDto;
-import com.celog.celog.controller.dto.userDto.userResponseDto.LoginResponseDto;
-import com.celog.celog.controller.dto.userDto.userResponseDto.MyProfileUserResponseDto;
-import com.celog.celog.controller.dto.userDto.userResponseDto.SignupResponseDto;
 import com.celog.celog.controller.dto.userDto.userResponseDto.UpdateProfileResponseDto;
 import com.celog.celog.domain.User;
 import com.celog.celog.shared.CoreSuccessResponse;
 import com.celog.celog.shared.service.SecurityService;
-import io.jsonwebtoken.Header;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -62,10 +57,10 @@ public class UserController {
             description = "내정보 불러오기"
     )
     public CoreSuccessResponse getMyProfile(HttpServletRequest httpServletRequest) {
-        User foundUser = securityService.getAuthenticatedUser(httpServletRequest.getHeader("Authorization"));
-        User userCopy = createReturnUser(foundUser);
+        User foundUser = getAuthenticatedUser(httpServletRequest);
+        User responseUser = createReturnUser(foundUser);
 
-        return coreSuccessResponse(userCopy, "내 프로필 조회 성공", HttpStatus.OK.value());
+        return coreSuccessResponse(responseUser, "내 프로필 조회 성공", HttpStatus.OK.value());
     }
 
     @PutMapping("/my_profile")
@@ -78,9 +73,13 @@ public class UserController {
             HttpServletRequest httpServletRequest,
             @RequestBody @Valid UpdateProfileRequestDto updateProfileRequestDto
     ) {
-        User authenticatedUser = securityService.getAuthenticatedUser(httpServletRequest.getHeader("Authorization"));
-        UpdateProfileResponseDto updateProfileResponseDto = updateMyProfileApplication.execute(authenticatedUser, updateProfileRequestDto);
+        User foundUser = getAuthenticatedUser(httpServletRequest);
+        UpdateProfileResponseDto updateProfileResponseDto = updateMyProfileApplication.execute(foundUser, updateProfileRequestDto);
         return coreSuccessResponse(updateProfileResponseDto, "내 프로필 수정 성공", HttpStatus.OK.value());
+    }
+
+    private User getAuthenticatedUser(HttpServletRequest httpServletRequest){
+        return securityService.getAuthenticatedUser(httpServletRequest.getHeader("Authorization"));
     }
 
     private User createReturnUser(User sourceUser) {
