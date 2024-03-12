@@ -17,5 +17,5 @@ public class CreateBoardRequestDto {
 
     @Email(message = "내용을 입력해주세요")
     @NotBlank(message = "내용을 입력해주세요")
-    Long content;
+    String content;
 }
