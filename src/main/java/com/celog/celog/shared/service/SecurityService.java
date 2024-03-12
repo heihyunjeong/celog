@@ -125,6 +125,18 @@ public class SecurityService {
                 );
     }
 
+    public User getLogin(String authHeader) {
+        if (authHeader == null) {
+            throw new HttpExceptionCustom(
+                    false,
+                    "로그인 후 이용 부탁 드립니다.",
+                    HttpStatus.UNAUTHORIZED
+            );
+        }
+        String token = authHeader.substring(7);
+        return getSubject(token);
+    }
+
 //    public String getTokenByCookie(Cookie[] cookies) {
 //        String token = null;
 //        for (Cookie cookie : cookies) {

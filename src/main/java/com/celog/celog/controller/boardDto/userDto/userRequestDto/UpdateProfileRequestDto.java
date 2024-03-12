@@ -1,4 +1,4 @@
-package com.celog.celog.controller.dto.userDto.userResponseDto;
+package com.celog.celog.controller.boardDto.userDto.userRequestDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,11 +7,10 @@ import lombok.Setter;
 
 @Setter
 @Getter
-@AllArgsConstructor
 @Builder
-public class MyProfileUserResponseDto {
-    Long id;
-    String email;
+@AllArgsConstructor
+public class UpdateProfileRequestDto {
     String name;
+    String password;
     Long age;
 }

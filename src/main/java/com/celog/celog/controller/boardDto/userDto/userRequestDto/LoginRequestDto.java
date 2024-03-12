@@ -1,4 +1,4 @@
-package com.celog.celog.controller.dto.userDto.userRequestDto;
+package com.celog.celog.controller.boardDto.userDto.userRequestDto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

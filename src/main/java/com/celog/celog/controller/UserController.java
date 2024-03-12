@@ -1,20 +1,15 @@
 package com.celog.celog.controller;
 
 import com.celog.celog.application.UserApplication.LoginUserApplication;
-import com.celog.celog.application.UserApplication.MyProfileUserApplication;
 import com.celog.celog.application.UserApplication.SignupUserApplication;
 import com.celog.celog.application.UserApplication.UpdateMyProfileApplication;
-import com.celog.celog.controller.dto.userDto.userRequestDto.LoginRequestDto;
-import com.celog.celog.controller.dto.userDto.userRequestDto.SignupRequestDto;
-import com.celog.celog.controller.dto.userDto.userRequestDto.UpdateProfileRequestDto;
-import com.celog.celog.controller.dto.userDto.userResponseDto.LoginResponseDto;
-import com.celog.celog.controller.dto.userDto.userResponseDto.MyProfileUserResponseDto;
-import com.celog.celog.controller.dto.userDto.userResponseDto.SignupResponseDto;
-import com.celog.celog.controller.dto.userDto.userResponseDto.UpdateProfileResponseDto;
+import com.celog.celog.controller.boardDto.userDto.userRequestDto.LoginRequestDto;
+import com.celog.celog.controller.boardDto.userDto.userRequestDto.SignupRequestDto;
+import com.celog.celog.controller.boardDto.userDto.userRequestDto.UpdateProfileRequestDto;
+import com.celog.celog.controller.boardDto.userDto.userResponseDto.UpdateProfileResponseDto;
 import com.celog.celog.domain.User;
 import com.celog.celog.shared.CoreSuccessResponse;
 import com.celog.celog.shared.service.SecurityService;
-import io.jsonwebtoken.Header;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;

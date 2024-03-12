@@ -1,4 +1,4 @@
-package com.celog.celog.controller.dto.userDto.userResponseDto;
+package com.celog.celog.controller.boardDto.userDto.userResponseDto;
 
 import lombok.Builder;
 import lombok.Getter;

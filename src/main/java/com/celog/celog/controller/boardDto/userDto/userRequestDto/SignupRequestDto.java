@@ -1,4 +1,4 @@
-package com.celog.celog.controller.dto.userDto.userRequestDto;
+package com.celog.celog.controller.boardDto.userDto.userRequestDto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;

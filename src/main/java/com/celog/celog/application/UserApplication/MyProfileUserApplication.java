@@ -1,6 +1,6 @@
 package com.celog.celog.application.UserApplication;
 
-import com.celog.celog.controller.dto.userDto.userResponseDto.MyProfileUserResponseDto;
+import com.celog.celog.controller.boardDto.userDto.userResponseDto.MyProfileUserResponseDto;
 import com.celog.celog.repository.UserRepository;
 import com.celog.celog.shared.Exception.HttpExceptionCustom;
 import jakarta.transaction.Transactional;
