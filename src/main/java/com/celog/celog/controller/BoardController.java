@@ -30,5 +30,4 @@ public class BoardController {
 
         return coreSuccessResponse(responseBoard,"게시글 작성 성공", 200);
     }
-
 }
