@@ -19,7 +19,7 @@ import static com.celog.celog.shared.CoreSuccessResponse.coreSuccessResponse;
 @RestController
 @RequestMapping("/api/board")
 @RequiredArgsConstructor
-public class BoardRestController {
+public class BoardController {
     private final BoardApplication boardApplication;
     private final SecurityService securityService;
 
