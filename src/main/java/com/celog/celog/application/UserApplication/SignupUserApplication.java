@@ -5,6 +5,8 @@ import com.celog.celog.controller.dto.userDto.userResponseDto.SignupResponseDto;
 import com.celog.celog.domain.User;
 import com.celog.celog.repository.UserRepository;
 import com.celog.celog.shared.Exception.HttpExceptionCustom;
+import com.celog.celog.shared.service.SecurityService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class SignupUserApplication {
     private final UserRepository userRepository;
+    private final SecurityService securityService;
 
     @Transactional
     public SignupResponseDto execute(
@@ -30,6 +33,23 @@ public class SignupUserApplication {
         User createdUser = createUser(signupRequestDto);
         User saved = userRepository.save(createdUser);
         return toSignupResponseDto(saved);
+    }
+
+
+    @Transactional
+    public User run(String email) {
+        HttpServletRequest httpServletRequest = null;
+
+        if(httpServletRequest == null) {
+            throw new HttpExceptionCustom(
+                    false,
+                    "로그인 후 이용 바랍니다.",
+                    HttpStatus.BAD_REQUEST
+            );
+        }
+
+        return securityService.getAuthenticatedUser(httpServletRequest.getHeader("Authorization"));
+
     }
 
     private User createUser(SignupRequestDto request) {

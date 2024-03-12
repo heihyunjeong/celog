@@ -1,12 +1,13 @@
 package com.celog.celog.domain;
 
+
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Date;
 
 @Setter
 @Getter
@@ -14,26 +15,24 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "users")
-public class User {
+@Table(name = "board")
+public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
-    private String email;
+    @Column()
+    private String title;
 
     @Column()
-    private String name;
+    private Long content;
 
-    @Column(nullable = false)
-    private String password;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column()
-    private Long age;
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Board> boards;
+    private int view_cnt;
 
     @CreationTimestamp // INSERT 시 자동으로 값을 채워줌
     @Column(name = "created_at")
