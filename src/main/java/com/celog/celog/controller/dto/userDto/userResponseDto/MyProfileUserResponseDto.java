@@ -1,4 +1,4 @@
-package com.celog.celog.controller.boardDto.userDto.userResponseDto;
+package com.celog.celog.controller.dto.userDto.userResponseDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,8 +7,11 @@ import lombok.Setter;
 
 @Setter
 @Getter
-@Builder
 @AllArgsConstructor
-public class SignupResponseDto {
+@Builder
+public class MyProfileUserResponseDto {
+    Long id;
     String email;
+    String name;
+    Long age;
 }

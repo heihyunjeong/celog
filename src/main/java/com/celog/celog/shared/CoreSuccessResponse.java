@@ -25,5 +25,4 @@ public class CoreSuccessResponse {
     private int httpStatus;
     private String message;
     private Object data;
-
 }

@@ -1,7 +1,7 @@
 package com.celog.celog.service;
 
 import com.celog.celog.application.UserApplication.SignupUserApplication;
-import com.celog.celog.controller.boardDto.userDto.userRequestDto.SignupRequestDto;
+import com.celog.celog.controller.dto.userDto.userRequestDto.SignupRequestDto;
 import com.celog.celog.domain.User;
 import com.celog.celog.repository.UserRepository;
 import com.celog.celog.shared.Exception.HttpExceptionCustom;

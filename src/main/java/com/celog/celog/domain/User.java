@@ -2,6 +2,11 @@ package com.celog.celog.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Setter
 @Getter
@@ -26,4 +31,18 @@ public class User {
 
     @Column()
     private Long age;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Board> boards;
+
+    @CreationTimestamp // INSERT 시 자동으로 값을 채워줌
+    @Column(name = "created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp // UPDATE 시 자동으로 값을 채워줌
+    private LocalDateTime updatedAt = LocalDateTime.now();
+
+    @Column
+    private LocalDateTime deletedAt;
 }

@@ -1,10 +1,10 @@
 package com.celog.celog.application.BoardApplication;
 
 
-import com.celog.celog.controller.boardDto.boardDto.BoardDto;
+import com.celog.celog.controller.dto.boardDto.CreateBoardRequestDto;
 import com.celog.celog.domain.Board;
+import com.celog.celog.domain.User;
 import com.celog.celog.repository.BoardRepository;
-import com.celog.celog.shared.service.SecurityService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,14 +14,13 @@ import org.springframework.stereotype.Service;
 public class BoardApplication {
 
     private final BoardRepository boardRepository;
-    private final SecurityService securityService;
     @Transactional
-    public void create(BoardDto boardDto, String foundUser) {
-        Board board = new Board();
-        board.setId(securityService.getUserIdFromToken(foundUser));
-        board.setTitle(boardDto.getTitle());
-        board.setContent(boardDto.getContent());
-        boardRepository.save(board);
-        //return BoardDto.toDto(board);
+    public Board execute(CreateBoardRequestDto boardDto, User user) {
+        Board board = Board.builder()
+                .title(boardDto.getTitle())
+                .content(boardDto.getContent())
+                .user(user)
+                .build();
+        return boardRepository.save(board);
     }
 }
