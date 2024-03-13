@@ -10,6 +10,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class BoardApplication {
@@ -30,5 +33,18 @@ public class BoardApplication {
                 .userEmail(saved.getUser().getEmail())
                 .createdAt(saved.getCreatedAt())
                 .build();
+    }
+
+    public List<CreateBoardRequestDto> showBoardList() {
+        List<Board> boardList = boardRepository.findAll();
+        List<CreateBoardRequestDto> boardDtosList = new ArrayList<>();
+        for(Board board : boardList){
+            CreateBoardRequestDto dto = CreateBoardRequestDto.builder()
+                    .title(board.getTitle())
+                    .content(board.getContent())
+                    .build();
+            boardDtosList.add(dto);
+        }
+        return boardDtosList;
     }
 }

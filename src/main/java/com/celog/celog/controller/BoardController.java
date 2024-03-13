@@ -10,10 +10,10 @@ import com.celog.celog.shared.service.SecurityService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static com.celog.celog.shared.CoreSuccessResponse.coreSuccessResponse;
 
@@ -31,4 +31,14 @@ public class BoardController {
 
         return coreSuccessResponse(createBoardResponseDto,"게시글 작성 성공", 200);
     }
+
+
+    // 전체 게시글 조회
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/boardList")
+    public CoreSuccessResponse getBoards() {
+        List<CreateBoardRequestDto> responseBoardList = boardApplication.showBoardList();
+        return coreSuccessResponse(responseBoardList,"전체 게시물 보기", 200);
+    }
+
 }
