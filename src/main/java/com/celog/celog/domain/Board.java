@@ -24,11 +24,7 @@ public class Board {
     @Column(nullable = false)
     private String title;
 
-<<<<<<< Updated upstream
     @Column(nullable = false)
-=======
-    @Column()
->>>>>>> Stashed changes
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
