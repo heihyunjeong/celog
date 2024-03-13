@@ -42,6 +42,25 @@ public class LoginUserApplicationTest {
     @Test
     @DisplayName("존재하지 않는 이메일입니다.")
     public void notExistUserLoginTest() {
+        // given
+        String doesNotEmail = "slkjdfhklasjdhf@gmail.com";
+
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+
+        // User 객체 생성
+        user = User.builder()
+                .id(1L)
+                .email(email)
+                .age(20L)
+                .password(hashedPassword)
+                .build();
+
+        // when
+
+
+        // then
+
+
 
     }
 }

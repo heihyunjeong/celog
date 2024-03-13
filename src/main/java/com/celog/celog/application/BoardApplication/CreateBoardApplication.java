@@ -1,8 +1,8 @@
 package com.celog.celog.application.BoardApplication;
 
 
-import com.celog.celog.controller.dto.boardDto.CreateBoardRequestDto;
-import com.celog.celog.controller.dto.boardDto.CreateBoardResponseDto;
+import com.celog.celog.controller.dto.boardDto.boardRequestDto.CreateBoardRequestDto;
+import com.celog.celog.controller.dto.boardDto.boardResponseDto.CreateBoardResponseDto;
 import com.celog.celog.domain.Board;
 import com.celog.celog.domain.User;
 import com.celog.celog.repository.BoardRepository;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class BoardApplication {
+public class CreateBoardApplication {
 
     private final BoardRepository boardRepository;
     @Transactional

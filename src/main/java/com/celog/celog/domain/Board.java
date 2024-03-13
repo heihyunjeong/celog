@@ -7,7 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.List;
 
 @Setter
 @Getter
@@ -31,8 +31,11 @@ public class Board {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column()
-    private int view_cnt;
+    @Column(name = "view_cnt")
+    private int viewCnt = 0;
+
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Review> reviews;
 
     @CreationTimestamp // INSERT 시 자동으로 값을 채워줌
     @Column(name = "created_at")
