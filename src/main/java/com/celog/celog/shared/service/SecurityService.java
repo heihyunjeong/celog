@@ -7,6 +7,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -68,7 +69,7 @@ public class SecurityService {
         return new UsernamePasswordAuthenticationToken(user, null, authorities);
     }
 
-    public User getAuthenticatedUser(String authHeader) {
+    private User foundUser(String authHeader) {
         if (authHeader == null) {
             throw new HttpExceptionCustom(
                     false,
@@ -78,6 +79,10 @@ public class SecurityService {
         }
         String token = authHeader.substring(7);
         return getSubject(token);
+    }
+
+    public User getAuthenticatedUser(HttpServletRequest httpServletRequest){
+        return foundUser(httpServletRequest.getHeader("Authorization"));
     }
 
     public Boolean validateToken(String token) {

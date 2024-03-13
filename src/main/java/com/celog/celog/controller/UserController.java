@@ -57,7 +57,7 @@ public class UserController {
             description = "내정보 불러오기"
     )
     public CoreSuccessResponse getMyProfile(HttpServletRequest httpServletRequest) {
-        User foundUser = getAuthenticatedUser(httpServletRequest);
+        User foundUser = securityService.getAuthenticatedUser(httpServletRequest);
         User responseUser = createReturnUser(foundUser);
 
         return coreSuccessResponse(responseUser, "내 프로필 조회 성공", HttpStatus.OK.value());
@@ -73,13 +73,9 @@ public class UserController {
             HttpServletRequest httpServletRequest,
             @RequestBody @Valid UpdateProfileRequestDto updateProfileRequestDto
     ) {
-        User foundUser = getAuthenticatedUser(httpServletRequest);
+        User foundUser = securityService.getAuthenticatedUser(httpServletRequest);
         UpdateProfileResponseDto updateProfileResponseDto = updateMyProfileApplication.execute(foundUser, updateProfileRequestDto);
         return coreSuccessResponse(updateProfileResponseDto, "내 프로필 수정 성공", HttpStatus.OK.value());
-    }
-
-    private User getAuthenticatedUser(HttpServletRequest httpServletRequest){
-        return securityService.getAuthenticatedUser(httpServletRequest.getHeader("Authorization"));
     }
 
     private User createReturnUser(User sourceUser) {

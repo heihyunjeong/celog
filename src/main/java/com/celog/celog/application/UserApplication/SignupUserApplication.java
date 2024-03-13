@@ -36,22 +36,6 @@ public class SignupUserApplication {
     }
 
 
-    @Transactional
-    public User run(String email) {
-        HttpServletRequest httpServletRequest = null;
-
-        if(httpServletRequest == null) {
-            throw new HttpExceptionCustom(
-                    false,
-                    "로그인 후 이용 바랍니다.",
-                    HttpStatus.BAD_REQUEST
-            );
-        }
-
-        return securityService.getAuthenticatedUser(httpServletRequest.getHeader("Authorization"));
-
-    }
-
     private User createUser(SignupRequestDto request) {
         return User.builder()
                 .email(request.getEmail())
