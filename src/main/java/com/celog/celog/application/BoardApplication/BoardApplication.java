@@ -2,6 +2,7 @@ package com.celog.celog.application.BoardApplication;
 
 
 import com.celog.celog.controller.dto.boardDto.CreateBoardRequestDto;
+import com.celog.celog.controller.dto.boardDto.CreateBoardResponseDto;
 import com.celog.celog.domain.Board;
 import com.celog.celog.domain.User;
 import com.celog.celog.repository.BoardRepository;
@@ -15,12 +16,19 @@ public class BoardApplication {
 
     private final BoardRepository boardRepository;
     @Transactional
-    public Board execute(CreateBoardRequestDto boardDto, User user) {
+    public CreateBoardResponseDto execute(CreateBoardRequestDto boardDto, User user) {
         Board board = Board.builder()
                 .title(boardDto.getTitle())
                 .content(boardDto.getContent())
                 .user(user)
                 .build();
-        return boardRepository.save(board);
+        Board saved = boardRepository.save(board);
+        return CreateBoardResponseDto.builder()
+                .id(saved.getId())
+                .title(saved.getTitle())
+                .content(saved.getContent())
+                .userEmail(saved.getUser().getEmail())
+                .createdAt(saved.getCreatedAt())
+                .build();
     }
 }

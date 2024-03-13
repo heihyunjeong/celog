@@ -2,6 +2,7 @@ package com.celog.celog.controller;
 
 import com.celog.celog.application.BoardApplication.BoardApplication;
 import com.celog.celog.controller.dto.boardDto.CreateBoardRequestDto;
+import com.celog.celog.controller.dto.boardDto.CreateBoardResponseDto;
 import com.celog.celog.domain.Board;
 import com.celog.celog.domain.User;
 import com.celog.celog.shared.CoreSuccessResponse;
@@ -26,8 +27,8 @@ public class BoardController {
     @PostMapping("")
     public CoreSuccessResponse insertBoard(@RequestBody @Valid CreateBoardRequestDto createBoardRequestDto, HttpServletRequest httpServletRequest) throws Exception{
         User user = securityService.getAuthenticatedUser(httpServletRequest.getHeader("Authorization"));
-        Board responseBoard = boardApplication.execute(createBoardRequestDto, user);
+        CreateBoardResponseDto createBoardResponseDto = boardApplication.execute(createBoardRequestDto, user);
 
-        return coreSuccessResponse(responseBoard,"게시글 작성 성공", 200);
+        return coreSuccessResponse(createBoardResponseDto,"게시글 작성 성공", 200);
     }
 }
