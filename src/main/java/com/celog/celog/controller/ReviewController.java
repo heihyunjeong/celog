@@ -1,17 +1,21 @@
 package com.celog.celog.controller;
 
-import com.celog.celog.application.BoardApplication.FindBoardApplication;
 import com.celog.celog.application.ReviewApplication.CreateReviewApplication;
 import com.celog.celog.controller.dto.reviewDto.reviewRequestDto.CreateReviewRequestDto;
 import com.celog.celog.domain.User;
 import com.celog.celog.shared.CoreSuccessResponse;
 import com.celog.celog.shared.service.SecurityService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Tag(name = "review", description = "리뷰 API")
 @RequestMapping("/api/review")
 @RequiredArgsConstructor
 public class ReviewController {

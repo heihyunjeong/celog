@@ -11,6 +11,7 @@ import com.celog.celog.domain.Board;
 import com.celog.celog.domain.User;
 import com.celog.celog.shared.CoreSuccessResponse;
 import com.celog.celog.shared.service.SecurityService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import java.util.Objects;
 import static com.celog.celog.shared.CoreSuccessResponse.coreSuccessResponse;
 
 @RestController
+@Tag(name = "board", description = "게시판 API")
 @RequestMapping("/api/board")
 @RequiredArgsConstructor
 public class BoardController {
