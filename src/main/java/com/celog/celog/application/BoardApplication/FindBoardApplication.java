@@ -19,7 +19,6 @@ public class FindBoardApplication {
            int size,
            String search
     ) {
-        // 서비스에서 호출
         Pageable pageable = PageRequest.of(page, size); // 정렬 기준 추가 필요
         Page<Board> boards;
         if (search != null && !search.isEmpty()) {
