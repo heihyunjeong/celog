@@ -58,7 +58,7 @@ public class BoardController {
             @RequestParam(value = "size", defaultValue = "10") int size,
             @RequestParam(value = "search", required = false) String search
     ) {
-
+        // page 와 size 는 1부터 시작
         FindBoardResponseDto findBoardResponseDto = findBoardApplication.execute(
                 page,
                 size,

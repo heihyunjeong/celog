@@ -9,10 +9,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Tag(name = "review", description = "리뷰 API")
@@ -23,12 +21,13 @@ public class ReviewController {
     private final SecurityService securityService;
 
     @PostMapping("")
+    @ResponseStatus(HttpStatus.CREATED)
     public CoreSuccessResponse createReview(
             HttpServletRequest httpServletRequest,
             @RequestBody @Valid CreateReviewRequestDto createReviewRequestDto
     ) {
         User foundUser = securityService.getAuthenticatedUser(httpServletRequest);
         createReviewAppliation.execute(foundUser, createReviewRequestDto);
-        return CoreSuccessResponse.coreSuccessResponse(true, "리뷰 작성 성공", 200);
+        return CoreSuccessResponse.coreSuccessResponse(true, "리뷰 작성 성공", 201);
     }
 }

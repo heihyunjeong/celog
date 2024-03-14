@@ -21,7 +21,12 @@ public class FindBoardApplication {
     ) {
         // 서비스에서 호출
         Pageable pageable = PageRequest.of(page, size); // 정렬 기준 추가 필요
-        Page<Board> boards = boardRepository.findByTitleContainingAndSort(search, pageable);
+        Page<Board> boards;
+        if (search != null && !search.isEmpty()) {
+            boards = boardRepository.findByTitleContainingAndSort(search, pageable);
+        } else {
+            boards = boardRepository.findAll(pageable);
+        }
 
         return FindBoardResponseDto.builder()
                 .page(page)

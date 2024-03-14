@@ -19,7 +19,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     @Query("SELECT b FROM Board b WHERE b.title LIKE %:search% ORDER BY b.createdAt desc ")
     Page<Board> findByTitleContainingAndSort(@Param("search") String search, Pageable pageable);
 
-
     @Query("SELECT b FROM Board b WHERE b.id = :boardId AND b.user = :user")
     Optional<Board> findBoardByIdAndUser(@Param("boardId") Long boardId, @Param("user") User user);
 }

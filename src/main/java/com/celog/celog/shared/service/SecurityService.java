@@ -70,7 +70,7 @@ public class SecurityService {
     }
 
     private User foundUser(String authHeader) {
-        if (authHeader == null) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw new HttpExceptionCustom(
                     false,
                     "Authentication credentials not found",
@@ -81,8 +81,16 @@ public class SecurityService {
         return getSubject(token);
     }
 
-    public User getAuthenticatedUser(HttpServletRequest httpServletRequest){
-        return foundUser(httpServletRequest.getHeader("Authorization"));
+    public User getAuthenticatedUser(HttpServletRequest httpServletRequest) {
+        try{
+            return foundUser(httpServletRequest.getHeader("Authorization"));
+        } catch (HttpExceptionCustom e) {
+            throw new HttpExceptionCustom(
+                    false,
+                    "로그인 후 이용 부탁 드립니다.",
+                    HttpStatus.UNAUTHORIZED
+            );
+        }
     }
 
     public Boolean validateToken(String token) {
