@@ -74,7 +74,7 @@ public class BoardController {
         return coreSuccessResponse(findBoardResponseDto, "게시글 조회 성공", 200);
     }
 
-    @PutMapping("{boardId}")
+    @PutMapping("{boardId}/{userId}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "게시글 업데이트", description = "게시글을 업데이트합니다.")
     public CoreSuccessResponse updateBoard(

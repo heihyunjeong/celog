@@ -11,9 +11,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CreateReviewRequestDto {
-    @NotNull
-    Long boardId;
-
     @NotBlank(message = "제목을 입력해주세요")
     String content;
 }

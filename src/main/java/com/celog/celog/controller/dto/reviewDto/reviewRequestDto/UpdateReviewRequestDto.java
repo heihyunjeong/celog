@@ -10,12 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UpdateReviewRequestDto {
-    @NotNull
-    Long boardId;
-
-    @NotNull
-    Long userId;
-
     @NotBlank(message = "제목을 입력해주세요")
     String content;
 }

@@ -26,15 +26,16 @@ public class ReviewController {
     private final UpdateReviewApplication updateReviewApplication;
     private final SecurityService securityService;
 
-    @PostMapping("")
+    @PostMapping("{boardId}")
     @Operation(summary = "리뷰 작성", description = "게시글에 리뷰를 작성합니다.")
     @ResponseStatus(HttpStatus.CREATED)
     public CoreSuccessResponse createReview(
             HttpServletRequest httpServletRequest,
+            @PathVariable Long boardId,
             @RequestBody @Valid CreateReviewRequestDto createReviewRequestDto
     ) {
         User foundUser = securityService.getAuthenticatedUser(httpServletRequest);
-        createReviewAppliation.execute(foundUser, createReviewRequestDto);
+        createReviewAppliation.execute(foundUser, boardId, createReviewRequestDto);
         return coreSuccessResponse(true, "리뷰 작성 성공", 201);
     }
 

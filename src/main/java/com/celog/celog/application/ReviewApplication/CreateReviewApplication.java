@@ -24,10 +24,11 @@ public class CreateReviewApplication {
     @Transactional
     public void execute(
             User user,
+            Long boardId,
             CreateReviewRequestDto createReviewRequestDto
     ) {
         Review review = new Review();
-        Board board = boardRepository.findById(createReviewRequestDto.getBoardId())
+        Board board = boardRepository.findById(boardId)
                 .orElseThrow(
                         () -> new HttpExceptionCustom(
                                 false,
