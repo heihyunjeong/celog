@@ -1,5 +1,6 @@
 package com.celog.celog.controller.dto.boardDto.boardResponseDto;
 
+import com.celog.celog.controller.dto.reviewDto.reviewResponseDto.FindReviewResponseDto;
 import com.celog.celog.domain.Review;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,5 +19,5 @@ public class FindOneBoardResponseDto {
     String userEmail;
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
-    List<Review> reviews;
+    List<FindReviewResponseDto> reviews;
 }

@@ -1,12 +1,16 @@
 package com.celog.celog.application.BoardApplication;
 
 import com.celog.celog.controller.dto.boardDto.boardResponseDto.FindOneBoardResponseDto;
+import com.celog.celog.controller.dto.reviewDto.reviewResponseDto.FindReviewResponseDto;
 import com.celog.celog.domain.Board;
+import com.celog.celog.domain.Review;
 import com.celog.celog.repository.BoardRepository;
 import com.celog.celog.shared.Exception.HttpExceptionCustom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +31,20 @@ public class FindOneBoardApplication {
                  .userEmail(board.getUser().getEmail())
                  .createdAt(board.getCreatedAt())
                  .updatedAt(board.getUpdatedAt())
-                 .reviews(board.getReviews())
+                 .reviews(findReviewResponseDtos(board))
                  .build();
+    }
+
+    private List<FindReviewResponseDto> findReviewResponseDtos(Board board) {
+        List<Review> reviews = board.getReviews();
+        return reviews.stream()
+                .map(review -> FindReviewResponseDto.builder()
+                        .id(review.getId())
+                        .content(review.getContent())
+                        .userEmail(review.getUser().getEmail())
+                        .createdAt(review.getCreatedAt())
+                        .updatedAt(review.getUpdatedAt())
+                        .build())
+                .toList();
     }
 }
