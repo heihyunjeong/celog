@@ -11,6 +11,7 @@ import com.celog.celog.domain.Board;
 import com.celog.celog.domain.User;
 import com.celog.celog.shared.CoreSuccessResponse;
 import com.celog.celog.shared.service.SecurityService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -35,6 +36,8 @@ public class BoardController {
     private final SecurityService securityService;
 
     @PostMapping("")
+    @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "게시글 작성", description = "게시글을 작성합니다.")
     public CoreSuccessResponse insertBoard(
             @RequestBody @Valid CreateBoardRequestDto createBoardRequestDto,
             HttpServletRequest httpServletRequest
@@ -45,6 +48,8 @@ public class BoardController {
     }
 
     @GetMapping("{boardId}")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "게시글 하나 조회", description = "게시글을 조회합니다.")
     public CoreSuccessResponse getBoard(
             @PathVariable Long boardId
     ) {
@@ -53,6 +58,8 @@ public class BoardController {
     }
 
     @GetMapping("")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "페이지네이션과 함께 게시글들 조회", description = "게시글을 조회합니다.")
     public CoreSuccessResponse getBoards(
             @RequestParam(value = "page", defaultValue = "1") int page,
             @RequestParam(value = "size", defaultValue = "10") int size,
@@ -68,6 +75,8 @@ public class BoardController {
     }
 
     @PutMapping("{boardId}")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "게시글 업데이트", description = "게시글을 업데이트합니다.")
     public CoreSuccessResponse updateBoard(
             HttpServletRequest httpServletRequest,
             @PathVariable Long boardId,
@@ -87,6 +96,8 @@ public class BoardController {
     }
 
     @DeleteMapping("{boardId}")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "게시글 삭제", description = "게시글을 삭제합니다.")
     public CoreSuccessResponse deleteBoard(
             HttpServletRequest httpServletRequest,
             @PathVariable Long boardId

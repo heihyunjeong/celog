@@ -3,6 +3,10 @@ package com.celog.celog.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -28,4 +32,15 @@ public class Review {
     @JoinColumn(name = "user_id")
     @JsonBackReference
     private User user;
+
+    @CreationTimestamp // INSERT 시 자동으로 값을 채워줌
+    @Column(name = "created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp // UPDATE 시 자동으로 값을 채워줌
+    private LocalDateTime updatedAt = LocalDateTime.now();
+
+    @Column
+    private LocalDateTime deletedAt;
 }
