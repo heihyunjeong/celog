@@ -7,7 +7,6 @@ import com.celog.celog.controller.dto.boardDto.boardResponseDto.CreateBoardRespo
 import com.celog.celog.controller.dto.boardDto.boardResponseDto.FindBoardResponseDto;
 import com.celog.celog.controller.dto.boardDto.boardResponseDto.FindOneBoardResponseDto;
 import com.celog.celog.controller.dto.boardDto.boardResponseDto.UpdateBoardResponseDto;
-import com.celog.celog.domain.Board;
 import com.celog.celog.domain.User;
 import com.celog.celog.shared.CoreSuccessResponse;
 import com.celog.celog.shared.service.SecurityService;
@@ -16,6 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -74,7 +74,7 @@ public class BoardController {
         return coreSuccessResponse(findBoardResponseDto, "게시글 조회 성공", 200);
     }
 
-    @PutMapping("{boardId}/{userId}")
+    @PutMapping("{boardId}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "게시글 업데이트", description = "게시글을 업데이트합니다.")
     public CoreSuccessResponse updateBoard(

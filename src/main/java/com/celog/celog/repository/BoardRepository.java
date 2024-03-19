@@ -2,6 +2,7 @@ package com.celog.celog.repository;
 
 
 import com.celog.celog.domain.Board;
+import com.celog.celog.domain.Review;
 import com.celog.celog.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
