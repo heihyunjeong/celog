@@ -32,7 +32,7 @@ public class FindOneBoardApplication {
                 ));
     }
 
-    private FindOneBoardResponseDto convertBoardToResponseDto(Board board){
+    private FindOneBoardResponseDto convertBoardToResponseDto(Board board) {
         return FindOneBoardResponseDto.builder()
                  .id(board.getId())
                  .title(board.getTitle())
