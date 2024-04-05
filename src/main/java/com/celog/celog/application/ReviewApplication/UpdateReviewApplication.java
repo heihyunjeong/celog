@@ -22,22 +22,24 @@ public class UpdateReviewApplication {
     @Transactional
     public void execute(
             User user,
-            Long boardId,
+            Long reviewId,
             UpdateReviewRequestDto updateReviewRequestDto
     ) {
-        Board foundBoard = boardRepository.findById(boardId)
-                .orElseThrow(() -> new HttpExceptionCustom(
-                        false,
-                        "해당하는 board를 찾을 수 없습니다.",
-                        HttpStatus.NOT_FOUND
-                ));
-        Review foundReview = reviewRepository.findByBoardAndUser(foundBoard, user)
+        Review foundReview = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new HttpExceptionCustom(
                         false,
                         "해당하는 리뷰를 찾을 수 없습니다.",
                         HttpStatus.NOT_FOUND
                 ));
-        System.out.println(foundReview);
-    }
 
+        if(!foundReview.getBoard().getUser().equals(user)){
+            throw new HttpExceptionCustom(
+                    false,
+                    "해당 리뷰를 수정할 권한이 없습니다.",
+                    HttpStatus.FORBIDDEN
+            );
+        }
+
+        foundReview.setContent(updateReviewRequestDto.getContent());
+    }
 }
