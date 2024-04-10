@@ -2,7 +2,6 @@ package com.celog.celog.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -50,6 +49,6 @@ public class Board {
     @UpdateTimestamp // UPDATE 시 자동으로 값을 채워줌
     private LocalDateTime updatedAt = LocalDateTime.now();
 
-    @Column
+    @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 }
